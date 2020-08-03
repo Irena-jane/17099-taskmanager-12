@@ -6,4 +6,6 @@
 *.webp binary
 *.woff binary
 *.woff2 binary
+bundle.js
+bundle.js.map
 node_modules
