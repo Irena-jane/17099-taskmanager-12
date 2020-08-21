@@ -1,6 +1,7 @@
 import {humanizeDate, getTimeFromDate, isDateExpired, isTaskRepeating, createElement} from "../utils";
 
 const createTaskTemplate = (task) => {
+
   const {color, description, dueDate, repeating, isArchive, isFavorite} = task;
 
   const date = dueDate !== null ?
