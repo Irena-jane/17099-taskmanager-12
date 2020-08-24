@@ -23,3 +23,4 @@ render(siteHeaderElement, new SiteMenuView().getElement(), RenderPosition.BEFORE
 
 render(siteMainElement, new FilterView(filters).getElement(), RenderPosition.BEFOREEND);
 boardPresenter.init(tasks);
+

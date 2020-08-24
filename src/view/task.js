@@ -3,6 +3,7 @@ import Abstract from "./abstract";
 import {humanizeDate, getTimeFromDate, isDateExpired, isTaskRepeating} from "../utils/utils";
 
 const createTaskTemplate = (task) => {
+
   const {color, description, dueDate, repeating, isArchive, isFavorite} = task;
 
   const date = dueDate !== null ?
