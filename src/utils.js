@@ -1,3 +1,9 @@
+
+export const createElement = (template) => {
+  const newElement = document.createElement(`div`);
+  newElement.innerHTML = template.trim();
+  return newElement.firstChild;
+};
 export const getRandomInteger = (a = 1, b = 0) => {
   const lower = Math.ceil(Math.min(a, b));
   const upper = Math.floor(Math.max(a, b));
