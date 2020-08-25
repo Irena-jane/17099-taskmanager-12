@@ -1,7 +1,7 @@
 import Abstract from "./abstract";
 import {COLORS} from "../const";
 
-import {humanizeDate, getTimeFromDate, isDateExpired, isTaskRepeating} from "../utils/utils";
+import {humanizeDate, getTimeFromDate, isDateExpired, isTaskRepeating} from "../utils/task";
 
 const createTaskEditDateTemplate = (dueDate) => {
   const date = dueDate !== null ?
