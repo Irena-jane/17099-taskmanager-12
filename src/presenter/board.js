@@ -29,7 +29,7 @@ export default class Board {
   }
   init(boardTasks) {
     this._boardTasks = boardTasks.slice();
-    this._sourcedBoardTasks = boardContainer.slice();
+    this._sourcedBoardTasks = boardTasks.slice();
 
     render(this._boardContainer, this._boardComponent);
     render(this._boardComponent, this._taskListComponent);
