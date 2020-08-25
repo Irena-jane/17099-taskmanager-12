@@ -1,4 +1,4 @@
-import {createElement} from "../utils";
+import Abstract from "./abstract";
 
 const createFilterItemTemplate = (filter, isChecked) => {
   const {name, count} = filter;
@@ -15,6 +15,7 @@ const createFilterItemTemplate = (filter, isChecked) => {
 };
 
 const createFilterTemplate = (filters) => {
+
   const filterItemsTemplate = filters.map((filter, i) => createFilterItemTemplate(filter, i === 0)).join(``);
   return (
     `<section class="main__filter filter container">
@@ -23,21 +24,12 @@ const createFilterTemplate = (filters) => {
   );
 };
 
-export default class Filter {
+export default class Filter extends Abstract {
   constructor(filters) {
-    this._element = null;
+    super();
     this._filters = filters;
   }
   getTemplate() {
     return createFilterTemplate(this._filters);
-  }
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-    return this._element;
-  }
-  removeElement() {
-    this._element = null;
   }
 }

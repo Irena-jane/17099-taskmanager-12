@@ -1,6 +1,7 @@
+import Abstract from "./abstract";
 import {COLORS} from "../const";
 
-import {humanizeDate, getTimeFromDate, isDateExpired, isTaskRepeating, createElement} from "../utils";
+import {humanizeDate, getTimeFromDate, isDateExpired, isTaskRepeating} from "../utils/utils";
 
 const createTaskEditDateTemplate = (dueDate) => {
   const date = dueDate !== null ?
@@ -142,21 +143,21 @@ const BLANK_TASK = {
   isArchive: false
 };
 
-export default class TaskEdit {
+export default class TaskEdit extends Abstract {
   constructor(task = BLANK_TASK) {
+    super();
     this._task = task;
-    this._element = null;
+    this._formSubmitHandler = this._formSubmitHandler.bind(this);
   }
   getTemplate() {
     return createTaskEditTemplate(this._task);
   }
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-    return this._element;
+  _formSubmitHandler(e) {
+    e.preventDefault();
+    this._callback.submit();
   }
-  removeElement() {
-    this._element = null;
+  setFormSubmitHandler(callback) {
+    this._callback.submit = callback;
+    this.getElement().querySelector(`form`).addEventListener(`submit`, this._formSubmitHandler);
   }
 }
