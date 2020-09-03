@@ -3,10 +3,18 @@ import TaskEditView from "../view/task-edit";
 
 import {render, replace, RenderPosition, remove} from "../utils/render";
 
+const Mode = {
+  DEFAULT: `DEFAULT`,
+  EDITING: `EDITING`
+};
 export default class Task {
-  constructor(taskListContainer, changeData) {
+  constructor(taskListContainer, changeData, changeMode) {
     this._taskListContainer = taskListContainer;
+
     this._changeData = changeData;
+    this._changeMode = changeMode;
+    this._mode = Mode.DEFAULT;
+
     this._taskComponent = null;
     this._taskEditComponent = null;
 
@@ -33,15 +41,20 @@ export default class Task {
       render(this._taskListContainer, this._taskComponent, RenderPosition.BEFOREEND);
       return;
     }
-    if (this._taskListContainer.getElement().contains(prevTaskComponent.getElement())) {
+    if (this._mode === Mode.DEFAULT) {
       replace(this._taskComponent, prevTaskComponent);
     }
-    if (this._taskListContainer.getElement().contains(prevTaskEditComponent.getElement())) {
+    if (this._mode === Mode.EDITING) {
       replace(this._taskEditComponent, prevTaskEditComponent);
     }
     remove(prevTaskComponent);
     remove(prevTaskEditComponent);
 
+  }
+  resetView() {
+    if (this._mode !== Mode.DEFAULT) {
+      this._replaceFormToCard();
+    }
   }
   _handleFavoriteClick() {
     this._changeData(
@@ -67,16 +80,21 @@ export default class Task {
   }
   _onEscKeyDown(e) {
     if (e.key === `Escape` || e.key === `Esc`) {
+      e.preventDefault();
+      this._taskEditComponent.reset(this._task);
       this._replaceFormToCard();
     }
   }
   _replaceCardToForm() {
     replace(this._taskEditComponent, this._taskComponent);
     document.addEventListener(`keydown`, this._onEscKeyDown);
+    this._changeMode();
+    this._mode = Mode.EDITING;
   }
   _replaceFormToCard() {
     replace(this._taskComponent, this._taskEditComponent);
     document.removeEventListener(`keydown`, this._onEscKeyDown);
+    this._mode = Mode.DEFAULT;
   }
   _handleEditClick() {
     this._replaceCardToForm();
