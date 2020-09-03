@@ -4,6 +4,7 @@ export default class Smart extends Abstract {
   constructor() {
     super();
     this._data = {};
+
   }
   updateElement() {
     let prevElement = this.getElement();

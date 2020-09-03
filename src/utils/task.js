@@ -1,3 +1,11 @@
+import moment from "moment";
+
+export const formatTaskDueDate = (dueDate) => {
+  if (!(dueDate instanceof Date)) {
+    return ``;
+  }
+  return moment(dueDate).format(`D MMMM`);
+};
 export const humanizeDate = (date) => {
   return date.toLocaleString(`en-US`, {day: `numeric`, month: `long`});
 };

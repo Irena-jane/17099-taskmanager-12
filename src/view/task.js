@@ -1,14 +1,13 @@
 import Abstract from "./abstract";
 
-import {humanizeDate, getTimeFromDate, isDateExpired, isTaskRepeating} from "../utils/task";
+import {getTimeFromDate, isDateExpired, isTaskRepeating, formatTaskDueDate} from "../utils/task";
 
 
 const createTaskTemplate = (task) => {
 
   const {color, description, dueDate, repeating, isArchive, isFavorite} = task;
 
-  const date = dueDate !== null ?
-    humanizeDate(dueDate) : ``;
+  const date = formatTaskDueDate(dueDate);
 
   const time = getTimeFromDate(dueDate);
   const hasDeadlineClass = isDateExpired(dueDate) ? ` card--deadline` : ``;
