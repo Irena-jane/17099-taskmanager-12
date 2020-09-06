@@ -1,18 +1,10 @@
-<<<<<<< HEAD
-=======
+import moment from "moment";
 
-export const createElement = (template) => {
-  const newElement = document.createElement(`div`);
-  newElement.innerHTML = template.trim();
-  return newElement.firstChild;
-};
->>>>>>> 9e3dbc6664f5326bca5e12754bfcdb2a6b10ef0b
-export const getRandomInteger = (a = 1, b = 0) => {
-  const lower = Math.ceil(Math.min(a, b));
-  const upper = Math.floor(Math.max(a, b));
-
-  const random = Math.floor(lower + Math.random() * (upper - lower + 1));
-  return random;
+export const formatTaskDueDate = (dueDate) => {
+  if (!(dueDate instanceof Date)) {
+    return ``;
+  }
+  return moment(dueDate).format(`D MMMM`);
 };
 export const humanizeDate = (date) => {
   return date.toLocaleString(`en-US`, {day: `numeric`, month: `long`});
@@ -43,5 +35,31 @@ export const isTaskExpiringToday = (date) => {
 };
 export const isDateExpired = (date) => {
   return date && Date.now() > date.getTime();
+};
+const getWeightForNullDate = (dateA, dateB) => {
+  if (dateA === null && dateB === null) {
+    return 0;
+  }
+  if (dateA === null) {
+    return 1;
+  }
+  if (dateB === null) {
+    return -1;
+  }
+  return null;
+};
+export const sortTaskUp = (taskA, taskB) => {
+  const weight = getWeightForNullDate(taskA.dueDate, taskB.dueDate);
+  if (weight !== null) {
+    return weight;
+  }
+  return taskA.dueDate.getTime() - taskB.dueDate.getTime();
+};
+export const sortTaskDown = (taskA, taskB) => {
+  const weight = getWeightForNullDate(taskA.dueDate, taskB.dueDate);
+  if (weight !== null) {
+    return weight;
+  }
+  return taskB.dueDate.getTime() - taskA.dueDate.getTime();
 };
 
