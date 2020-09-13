@@ -13,9 +13,9 @@ const createTaskTemplate = (task) => {
   const hasDeadlineClass = isDateExpired(dueDate) ? ` card--deadline` : ``;
 
   const hasArchiveClass = isArchive ?
-    `card__btn--archive card__btn--disabled` : `card__btn--archive`;
+    `card__btn--archive` : `card__btn--archive card__btn--disabled`;
   const hasFavoriteClass = isFavorite ?
-    `card__btn--favorites card__btn--disabled` : `card__btn--favorites`;
+    `card__btn--favorites` : `card__btn--favorites card__btn--disabled`;
 
   const hasRepeatingClass = isTaskRepeating(repeating) ? ` card--repeat` : ``;
 
