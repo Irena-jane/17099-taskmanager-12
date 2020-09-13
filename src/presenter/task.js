@@ -27,7 +27,6 @@ export default class Task {
 
   init(task) {
     this._task = task;
-    console.log(task);
     const prevTaskComponent = this._taskComponent;
     const prevTaskEditComponent = this._taskEditComponent;
 

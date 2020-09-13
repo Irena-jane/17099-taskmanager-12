@@ -45,8 +45,6 @@ export default class Board {
       .forEach((presenter) => presenter.resetView());
   }
   _handleTaskChange(updatedTask) {
-    console.log('updatedTask: isArchive', updatedTask.isArchive);
-    console.log('updatedTask: isFavorite', updatedTask.isFavorite);
     this._boardTasks = updateItem(this._boardTasks, updatedTask);
     this._sourcedBoardTasks = updateItem(this._sourcedBoardTasks, updatedTask);
 
