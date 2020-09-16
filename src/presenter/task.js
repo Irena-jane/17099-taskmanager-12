@@ -36,6 +36,8 @@ export default class Task {
 
     this._taskComponent.setEditClickHandler(this._handleEditClick);
     this._taskEditComponent.setFormSubmitHandler(this._handleFormSubmit);
+    this._taskComponent.setFavoriteClickHandler(this._handleFavoriteClick);
+    this._taskComponent.setArchiveClickHandler(this._handleArchiveClick);
 
     if (prevTaskComponent === null || prevTaskEditComponent === null) {
       render(this._taskListContainer, this._taskComponent, RenderPosition.BEFOREEND);
