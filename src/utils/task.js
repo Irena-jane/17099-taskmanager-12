@@ -28,11 +28,28 @@ export const getCurrentDate = () => {
   return date.setHours(23, 59, 59, 999);
 };
 export const isTaskExpired = (date) => {
-  return date && getCurrentDate() > date.setHours(23, 59, 59, 999);
+  // return date && getCurrentDate() > date.setHours(23, 59, 59, 999);
+  if (date === null) {
+    return false;
+  }
+  const currentDate = getCurrentDate();
+  return moment(currentDate).isAfter(date, `day`);
 };
 export const isTaskExpiringToday = (date) => {
-  return date && getCurrentDate() === date.setHours(23, 59, 59, 999);
+  // return date && getCurrentDate() === date.setHours(23, 59, 59, 999);
+  if (date === null) {
+    return false;
+  }
+  const currentDate = getCurrentDate();
+  return moment(currentDate).isSame(date, `day`);
 };
+export const isDateEqual = (dateA, dateB) => {
+  if (dateA === null || dateB === null) {
+    return false;
+  }
+  return moment(dateA).isSame(dateB, `day`);
+};
+
 export const isDateExpired = (date) => {
   return date && Date.now() > date.getTime();
 };
