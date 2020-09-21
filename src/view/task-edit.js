@@ -1,5 +1,7 @@
+import he from "he";
 import SmartView from "./smart";
 import {COLORS} from "../const";
+
 
 import flatpickr from "flatpickr";
 import "../../node_modules/flatpickr/dist/flatpickr.min.css";
@@ -100,7 +102,7 @@ const createTaskEditTemplate = (data) => {
                 class="card__text"
                 placeholder="Start typing your text here..."
                 name="text"
-              >${description}</textarea>
+              >${he.encode(description)}</textarea>
             </label>
           </div>
 
@@ -158,9 +160,17 @@ export default class TaskEdit extends SmartView {
     this._descriptionInputHandler = this._descriptionInputHandler.bind(this);
     this._colorChangeHandler = this._colorChangeHandler.bind(this);
     this._repeatingChangeHandler = this._repeatingChangeHandler.bind(this);
+    this._formDeleteClickHandler = this._formDeleteClickHandler.bind(this);
 
     this.setDatepicker();
     this._setInnerHandlers();
+  }
+  removeElement() {
+    super.removeElement();
+    if (this._datepicker) {
+      this._datepicker.destroy();
+      this._datepicker = null;
+    }
   }
   getTemplate() {
     return createTaskEditTemplate(this._data);
@@ -193,11 +203,18 @@ export default class TaskEdit extends SmartView {
     e.preventDefault();
     this._callback.formSubmit(TaskEdit.parseDataToTask(this._data));
   }
+  _formDeleteClickHandler(e) {
+    e.preventDefault();
+    this._callback.deleteClick(TaskEdit.parseDataToTask(this._data));
+  }
   setFormSubmitHandler(callback) {
     this._callback.formSubmit = callback;
     this.getElement().querySelector(`form`).addEventListener(`submit`, this._formSubmitHandler);
   }
-
+  setDeleteClickHandler(callback) {
+    this._callback.deleteClick = callback;
+    this.getElement().querySelector(`.card__delete`).addEventListener(`click`, this._formDeleteClickHandler);
+  }
   _setInnerHandlers() {
     const element = this.getElement();
     if (this._data.isRepeating) {
@@ -222,6 +239,7 @@ export default class TaskEdit extends SmartView {
     this._setInnerHandlers();
     this.setDatepicker();
     this.setFormSubmitHandler(this._callback.formSubmit);
+    this.setDeleteClickHandler(this._callback.deleteClick);
   }
   _descriptionInputHandler(e) {
     e.preventDefault();

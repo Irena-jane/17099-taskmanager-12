@@ -1,7 +1,7 @@
+import he from "he";
 import Abstract from "./abstract";
 
 import {getTimeFromDate, isDateExpired, isTaskRepeating, formatTaskDueDate} from "../utils/task";
-
 
 const createTaskTemplate = (task) => {
 
@@ -13,9 +13,9 @@ const createTaskTemplate = (task) => {
   const hasDeadlineClass = isDateExpired(dueDate) ? ` card--deadline` : ``;
 
   const hasArchiveClass = isArchive ?
-    `card__btn--archive card__btn--disabled` : `card__btn--archive`;
+    `card__btn--archive` : `card__btn--archive card__btn--disabled`;
   const hasFavoriteClass = isFavorite ?
-    `card__btn--favorites card__btn--disabled` : `card__btn--favorites`;
+    `card__btn--favorites` : `card__btn--favorites card__btn--disabled`;
 
   const hasRepeatingClass = isTaskRepeating(repeating) ? ` card--repeat` : ``;
 
@@ -45,7 +45,7 @@ const createTaskTemplate = (task) => {
                 </div>
 
                 <div class="card__textarea-wrap">
-                  <p class="card__text">${description}</p>
+                  <p class="card__text">${he.encode(description)}</p>
                 </div>
 
                 <div class="card__settings">
