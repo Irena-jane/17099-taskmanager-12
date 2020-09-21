@@ -25,7 +25,8 @@ export const isTaskRepeating = (repeating) => {
 };
 export const getCurrentDate = () => {
   const date = new Date();
-  return date.setHours(23, 59, 59, 999);
+  date.setHours(23, 59, 59, 999);
+  return new Date(date);
 };
 export const isTaskExpired = (date) => {
   // return date && getCurrentDate() > date.setHours(23, 59, 59, 999);

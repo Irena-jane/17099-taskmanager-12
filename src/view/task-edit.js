@@ -235,7 +235,7 @@ export default class TaskEdit extends SmartView {
       .querySelector(`.card__colors-wrap`)
       .addEventListener(`change`, this._colorChangeHandler);
   }
-  _restoreHandlers() {
+  restoreHandlers() {
     this._setInnerHandlers();
     this.setDatepicker();
     this.setFormSubmitHandler(this._callback.formSubmit);
