@@ -1,7 +1,6 @@
 
 import SiteMenuView from "./view/site-menu";
 import StatisticsView from "./view/statistics";
-import {generateTask} from "./mock/task";
 import {MenuItem, UpdateType, FilterType} from "./const";
 
 import BoardPresenter from "./presenter/board";
@@ -10,28 +9,29 @@ import {remove, render} from "./utils/render";
 
 import TasksModel from "./model/tasks";
 import FilterModel from "./model/filter";
+import Api from "./api";
 
-const TASK_COUNT = 22;
-
-const tasks = new Array(TASK_COUNT).fill().map(generateTask);
-
-const tasksModel = new TasksModel();
-tasksModel.setTasks(tasks);
-
-const filterModel = new FilterModel();
+const AUTHORIZATION = `Basic hS2sd3dfSwcl1sa2j`;
+const END_POINT = `https://12.ecmascript.pages.academy/task-manager`;
 
 const siteMainElement = document.querySelector(`.main`);
 const siteHeaderElement = siteMainElement.querySelector(`.main__control`);
 
-const boardPresenter = new BoardPresenter(siteMainElement, tasksModel, filterModel);
+const api = new Api(END_POINT, AUTHORIZATION);
+const tasksModel = new TasksModel();
+
+const filterModel = new FilterModel();
+
+const boardPresenter = new BoardPresenter(siteMainElement, tasksModel, filterModel, api);
 const filterPresenter = new FilterPresenter(siteMainElement, filterModel, tasksModel);
 
 const siteMenuComponent = new SiteMenuView();
-render(siteHeaderElement, siteMenuComponent);
+
 const handleTaskNewFormClose = () => {
   siteMenuComponent.getElement().querySelector(`[value=${MenuItem.TASKS}]`).disabled = false;
   siteMenuComponent.setMenuItem(MenuItem.TASKS);
 };
+
 let statisticsComponent = null;
 const handleSiteMenuClick = (menuItem) => {
   switch (menuItem) {
@@ -56,12 +56,25 @@ const handleSiteMenuClick = (menuItem) => {
       break;
   }
 };
-siteMenuComponent.setMenuClickHandler(handleSiteMenuClick);
+
 
 filterPresenter.init();
 boardPresenter.init();
-document.querySelector(`#control__new-task`).addEventListener(`click`, (e) => {
+
+api.getTasks()
+.then((tasks) => {
+  tasksModel.setTasks(UpdateType.INIT, tasks);
+  render(siteHeaderElement, siteMenuComponent);
+  siteMenuComponent.setMenuClickHandler(handleSiteMenuClick);
+})
+.catch(() => {
+  tasksModel.setTasks(UpdateType.INIT, []);
+  render(siteHeaderElement, siteMenuComponent);
+  siteMenuComponent.setMenuClickHandler(handleSiteMenuClick);
+});
+
+/* document.querySelector(`#control__new-task`).addEventListener(`click`, (e) => {
   e.preventDefault();
   boardPresenter.createTask(handleTaskNewFormClose);
 });
-
+ */

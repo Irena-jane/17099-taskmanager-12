@@ -1,7 +1,7 @@
 import TaskEditView from "../view/task-edit";
 import {render, remove, RenderPosition} from "../utils/render";
 import {UserAction, UpdateType} from "../const";
-import {generateId} from "../mock/task";
+import {generateId} from "../utils/task";
 
 export default class TaskNew {
   constructor(taskListContainer, changeData) {
