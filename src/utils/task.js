@@ -1,7 +1,7 @@
 import moment from "moment";
 
 // github.com/ai/nanoid
-export const generateId = () => Date.now() + parseInt(Math.random() * 10000, 10);
+// export const generateId = () => Date.now() + parseInt(Math.random() * 10000, 10);
 
 export const formatTaskDueDate = (dueDate) => {
   if (!(dueDate instanceof Date)) {

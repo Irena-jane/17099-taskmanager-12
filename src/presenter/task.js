@@ -9,6 +9,12 @@ const Mode = {
   DEFAULT: `DEFAULT`,
   EDITING: `EDITING`
 };
+export const State = {
+  SAVING: `SAVING`,
+  DELETING: `DELETING`,
+  ABORTING: `ABORTING`
+};
+
 export default class Task {
   constructor(taskListContainer, changeData, changeMode) {
     this._taskListContainer = taskListContainer;
@@ -51,7 +57,8 @@ export default class Task {
       replace(this._taskComponent, prevTaskComponent);
     }
     if (this._mode === Mode.EDITING) {
-      replace(this._taskEditComponent, prevTaskEditComponent);
+      // replace(this._taskEditComponent, prevTaskEditComponent);
+      replace(this._taskComponent, prevTaskEditComponent);
     }
     remove(prevTaskComponent);
     remove(prevTaskEditComponent);
@@ -60,6 +67,33 @@ export default class Task {
   resetView() {
     if (this._mode !== Mode.DEFAULT) {
       this._replaceFormToCard();
+    }
+  }
+  setViewState(state) {
+    const resetFormState = () => {
+      this._taskEditComponent.updateData({
+        isDisabled: false,
+        isSaving: false,
+        isDeleting: false
+      });
+    };
+    switch (state) {
+      case State.SAVING:
+        this._taskEditComponent.updateData({
+          isDisabled: true,
+          isSaving: true
+        });
+        break;
+      case State.DELETING:
+        this._taskEditComponent.updateData({
+          isDisabled: true,
+          isDeleting: true
+        });
+        break;
+      case State.ABORTING:
+        this._taskEditComponent.shake(resetFormState);
+        this._taskComponent.shake(resetFormState);
+        break;
     }
   }
   _handleDeleteClick(task) {
@@ -122,7 +156,7 @@ export default class Task {
         UserAction.UPDATE_TASK,
         isMinorUpdate ? UpdateType.MINOR : UpdateType.PATCH,
         update);
-    this._replaceFormToCard();
+    // this._replaceFormToCard();
   }
 
 }
