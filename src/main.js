@@ -11,7 +11,7 @@ import TasksModel from "./model/tasks";
 import FilterModel from "./model/filter";
 import Api from "./api";
 
-const AUTHORIZATION = `Basic hS2sd3dfSwcl1sa2j`;
+const AUTHORIZATION = `Basic hS2sd3dfSwcl1sa2j88`;
 const END_POINT = `https://12.ecmascript.pages.academy/task-manager`;
 
 const siteMainElement = document.querySelector(`.main`);
@@ -72,9 +72,3 @@ api.getTasks()
   render(siteHeaderElement, siteMenuComponent);
   siteMenuComponent.setMenuClickHandler(handleSiteMenuClick);
 });
-
-/* document.querySelector(`#control__new-task`).addEventListener(`click`, (e) => {
-  e.preventDefault();
-  boardPresenter.createTask(handleTaskNewFormClose);
-});
- */
